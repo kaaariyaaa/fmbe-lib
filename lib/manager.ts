@@ -234,7 +234,7 @@ export function startAutoRenderLoop(options: FmbeAutoRenderLoopOptions = {}): nu
       for (const entity of entities) {
         if (!manager.hasRenderData(entity)) continue;
         entity.addEffect(MinecraftEffectTypes.Invisibility, 1, { showParticles: false });
-        entity.addEffect(MinecraftEffectTypes.HealthBoost, 1, { showParticles: false });
+        entity.addEffect(MinecraftEffectTypes.InstantHealth, 1, { showParticles: false });
         entity.clearVelocity();
         entity.teleport(entity.location);
         manager.applyRender(entity);
