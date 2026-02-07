@@ -4,7 +4,7 @@ import ts from "@typescript-eslint/eslint-plugin";
 
 export default [
   {
-    files: ["fmbe-lib/**/*.ts"],
+    files: ["**/*.ts"],
     languageOptions: {
       parser: tsParser,
       ecmaVersion: "latest",

@@ -23,7 +23,7 @@ async function main() {
   try {
     await access(eslintPath);
     await new Promise((resolvePromise, reject) => {
-      const child = spawn(eslintPath, ["fmbe-lib/**/*.{ts,js}"], {
+      const child = spawn(eslintPath, ["**/*.{ts,js}"], {
         cwd: rootDir,
         stdio: "inherit",
         shell: process.platform === "win32",

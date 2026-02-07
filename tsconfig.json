@@ -12,7 +12,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "scripts/index.ts",
-    "fmbe-lib/**/*.ts"
+    "index.ts",
+    "**/*.ts"
   ]
 }

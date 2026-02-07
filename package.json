@@ -19,7 +19,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "eslint \"fmbe-lib/**/*.{ts,js}\"",
+    "lint": "eslint \"**/*.{ts,js}\"",
     "build:local": "node ./tools/local-build.mjs",
     "package:local": "node ./tools/local-package.mjs"
   }
