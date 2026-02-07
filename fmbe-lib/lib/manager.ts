@@ -68,11 +68,8 @@ const DEFAULT_DIMENSIONS = [
  *   enabled: true,
  * });
  * 
- * // レンダリング変数を適用
- * manager.setRenderVariables(entity);
- * 
- * // レンダリング設定を解除
- * manager.removeRenderData(entity);
+ * // レンダリング設定を削除
+ * manager.clearRenderData(entity);
  * ```
  */
 export class FmbeManager {
@@ -160,7 +157,6 @@ export class FmbeManager {
    * レンダリングを適用
    * 
    * 保存されているレンダリングデータに基づいて、エンティティにレンダリングを適用します。
-   * enabled が false の場合は何もしません。
    * 
    * @param entity - 対象エンティティ
    * @returns 成功した場合 true（レンダリングデータが存在しないか無効な場合は false）
@@ -256,4 +252,3 @@ export function stopAutoRenderLoop(): void {
   system.clearRun(autoLoopId);
   autoLoopId = undefined;
 }
-

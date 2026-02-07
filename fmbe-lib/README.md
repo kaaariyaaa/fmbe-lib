@@ -154,14 +154,8 @@ manager.applyRenderData(entity, {
   enabled: true,
 });
 
-// レンダリング変数を更新
-manager.updateVariables(entity, { scale: 2.0 });
-
-// レンダリング変数を適用
-manager.setRenderVariables(entity);
-
-// レンダリング設定を解除
-manager.removeRenderData(entity);
+// レンダリング設定を削除
+manager.clearRenderData(entity);
 ```
 
 ### 複数エンティティの一括処理
@@ -253,18 +247,12 @@ console.log(`${successCount} entities rendered`);
   - レンダリング設定を適用
 - `clearRenderData(entity: Entity): void`
   - レンダリングデータを削除
-- `removeRenderData(entity: Entity): void`
-  - レンダリング設定を解除
 - `hasRenderData(entity: Entity): boolean`
   - レンダリングデータを保持しているか判定
 - `getEntitiesWithRenderData(dimensions?: MinecraftDimensionTypes[], query?: EntityQueryOptions): Entity[]`
   - レンダリングデータを持つエンティティを取得
-- `updateVariables(entity: Entity, variables: Partial<FmbeRenderVariables>): boolean`
-  - レンダリング変数を更新
 - `applyRender(entity: Entity): boolean`
   - 保存されたレンダリングデータに基づいてレンダリングを適用
-- `setRenderVariables(entity: Entity): boolean`
-  - 保存されたレンダリングデータに基づいて変数のみを適用
 - `applyRenderBatch(entities: Entity[]): number`
   - 複数のエンティティにレンダリングを適用
 - `getRenderType(entity: Entity): FmbeRenderType | undefined`
