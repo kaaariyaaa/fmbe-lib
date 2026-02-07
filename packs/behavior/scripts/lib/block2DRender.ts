@@ -6,7 +6,7 @@
  * 
  * @example
  * ```typescript
- * import { FmbeBlock2DRenderer } from "./lib/block2DRender.js";
+ * import { FmbeBlock2DRenderer } from "./lib/block2DRender.ts";
  * 
  * const renderer = new FmbeBlock2DRenderer();
  * renderer.apply(entity, {
@@ -25,8 +25,8 @@ import {
   type FmbeRenderAnimations,
   type FmbeRenderOptions,
   type FmbeRenderVariables,
-} from "./renderBase.js";
-import { BLOCK_2D_PRESET } from "./renderPresets.js";
+} from "./renderBase.ts";
+import { BLOCK_2D_PRESET } from "./renderPresets.ts";
 
 /**
  * 2D ブロックレンダリング用の変数定義

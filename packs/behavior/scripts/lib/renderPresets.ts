@@ -5,11 +5,11 @@
  * デフォルトアニメーションと Molang 式をまとめています。
  */
 
-import { SETUP_EXPRESSION } from "./renderBase.js";
+import { SETUP_EXPRESSION } from "./renderBase.ts";
 import type {
   FmbeRenderAnimations,
   FmbeRenderExpressions,
-} from "./renderBase.js";
+} from "./renderBase.ts";
 
 /**
  * レンダリングプリセット

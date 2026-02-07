@@ -9,11 +9,11 @@ import { system, world } from "@minecraft/server";
 import type { EntityQueryOptions, EntityComponentTypes } from "@minecraft/server";
 import { MinecraftDimensionTypes, MinecraftEffectTypes } from "@minecraft/vanilla-data";
 import type { Entity } from "@minecraft/server";
-import { FmbeBlock2DRenderer } from "./block2DRender.js";
-import { FmbeBlock3DRenderer } from "./block3DRender.js";
-import { FmbeItemRenderer } from "./itemRender.js";
-import type { FmbeRenderVariables } from "./renderBase.js";
-import type { FmbeRendererBase } from "./renderBase.js";
+import { FmbeBlock2DRenderer } from "./block2DRender.ts";
+import { FmbeBlock3DRenderer } from "./block3DRender.ts";
+import { FmbeItemRenderer } from "./itemRender.ts";
+import type { FmbeRenderVariables } from "./renderBase.ts";
+import type { FmbeRendererBase } from "./renderBase.ts";
 
 /**
  * レンダリングタイプ（enum 形式）
@@ -273,7 +273,7 @@ export class FmbeManager {
   }
 
   private getRenderer(type: FmbeRenderType): FmbeRendererBase | undefined {
-    switch (normalizeRenderType(type)) {
+    switch (type) {
       case "block2d":
         return this.block2DRenderer;
       case "block3d":
@@ -327,22 +327,6 @@ export function stopAutoRenderLoop(): void {
   if (autoLoopId === undefined) return;
   system.clearRun(autoLoopId);
   autoLoopId = undefined;
-}
-
-function normalizeRenderType(type: FmbeRenderType): "block2d" | "block3d" | "item" {
-  switch (type) {
-    case FmbeRenderTypes.Block2D:
-    case "block2d":
-      return "block2d";
-    case FmbeRenderTypes.Block3D:
-    case "block3d":
-      return "block3d";
-    case FmbeRenderTypes.Item:
-    case "item":
-      return "item";
-    default:
-      return "item";
-  }
 }
 
 function hasRenderData(entity: Entity): boolean {

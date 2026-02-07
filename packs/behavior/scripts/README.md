@@ -1,6 +1,6 @@
 # FMBE Render Library
 
-FMBE (Fake Model Block Entity) レンダリングライブラリは、Minecraft Bedrock Edition の Script API を使用して、エンティティのアニメーションを利用した疑似的なブロック/アイテムレンダリングを提供します。
+FMBE (Fox Model Block Entity) レンダリングライブラリは、Minecraft Bedrock Edition の Script API を使用して、エンティティのアニメーションを利用した疑似的なブロック/アイテムレンダリングを提供します。
 
 ## 概要
 

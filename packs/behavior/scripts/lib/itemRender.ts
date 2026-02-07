@@ -6,7 +6,7 @@
  * 
  * @example
  * ```typescript
- * import { FmbeItemRenderer } from "./lib/itemRender.js";
+ * import { FmbeItemRenderer } from "./lib/itemRender.ts";
  * 
  * const renderer = new FmbeItemRenderer();
  * renderer.apply(entity, {
@@ -25,8 +25,8 @@ import {
   type FmbeRenderAnimations,
   type FmbeRenderOptions,
   type FmbeRenderVariables,
-} from "./renderBase.js";
-import { ITEM_PRESET } from "./renderPresets.js";
+} from "./renderBase.ts";
+import { ITEM_PRESET } from "./renderPresets.ts";
 
 /**
  * アイテムレンダリング用の変数定義

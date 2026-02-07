@@ -12,7 +12,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "scripts/main.ts",
+    "scripts/index.ts",
     "packs/behavior/scripts/**/*.ts"
   ]
 }

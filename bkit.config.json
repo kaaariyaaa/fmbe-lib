@@ -29,7 +29,7 @@
     "root": "D:\\Projects\\MCBE\\addon\\fmbe-lib"
   },
   "script": {
-    "entry": "scripts/main.ts",
+    "entry": "scripts/index.ts",
     "language": "typescript",
     "dependencies": [
       {

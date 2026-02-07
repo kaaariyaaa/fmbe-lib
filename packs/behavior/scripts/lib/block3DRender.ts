@@ -6,7 +6,7 @@
  * 
  * @example
  * ```typescript
- * import { FmbeBlock3DRenderer } from "./lib/block3DRender.js";
+ * import { FmbeBlock3DRenderer } from "./lib/block3DRender.ts";
  * 
  * const renderer = new FmbeBlock3DRenderer();
  * renderer.apply(entity, {
@@ -25,8 +25,8 @@ import {
   type FmbeRenderAnimations,
   type FmbeRenderOptions,
   type FmbeRenderVariables,
-} from "./renderBase.js";
-import { BLOCK_3D_PRESET } from "./renderPresets.js";
+} from "./renderBase.ts";
+import { BLOCK_3D_PRESET } from "./renderPresets.ts";
 
 /**
  * 3D ブロックレンダリング用の変数定義

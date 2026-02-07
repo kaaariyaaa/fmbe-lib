@@ -6,7 +6,7 @@
  */
 
 import type { Entity } from "@minecraft/server";
-import { formatNumber, isFiniteNumber } from "./utils.js";
+import { formatNumber, isFiniteNumber } from "./utils.ts";
 
 /**
  * レンダリングに使用する Molang 変数の定義
