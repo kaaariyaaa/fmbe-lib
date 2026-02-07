@@ -37,8 +37,6 @@ export interface FmbeRenderData {
   type: FmbeRenderType;
   /** レンダリング変数 */
   variables: FmbeRenderVariables;
-  /** 有効/無効フラグ */
-  enabled: boolean;
 }
 
 /**
