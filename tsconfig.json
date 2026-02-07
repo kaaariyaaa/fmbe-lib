@@ -13,6 +13,6 @@
   },
   "include": [
     "scripts/index.ts",
-    "packs/behavior/scripts/**/*.ts"
+    "fmbe-lib/**/*.ts"
   ]
 }

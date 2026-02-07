@@ -147,27 +147,21 @@ import { FmbeManager } from "./lib/fmbeManager.js";
 
 const manager = new FmbeManager();
 
-// レンダリング設定を保存
-manager.setRenderData(entity, {
+// レンダリング設定を適用
+manager.applyRenderData(entity, {
   type: "block2d",
   variables: { xpos: 0, ypos: 0, zpos: 0, scale: 1.0 },
   enabled: true,
 });
 
-// 保存された設定でレンダリングを適用
-manager.applyRender(entity);
-
 // レンダリング変数を更新
 manager.updateVariables(entity, { scale: 2.0 });
 
-// レンダリングを無効化（設定は保持）
-manager.disable(entity);
+// レンダリング変数を適用
+manager.setRenderVariables(entity);
 
-// レンダリングを再度有効化
-manager.enable(entity);
-
-// レンダリング設定を削除
-manager.clearRenderData(entity);
+// レンダリング設定を解除
+manager.removeRenderData(entity);
 ```
 
 ### 複数エンティティの一括処理
@@ -255,20 +249,22 @@ console.log(`${successCount} entities rendered`);
   - レンダリングデータを取得
 - `setRenderData(entity: Entity, data: FmbeRenderData): void`
   - レンダリングデータを設定
+- `applyRenderData(entity: Entity, data: FmbeRenderData): boolean`
+  - レンダリング設定を適用
 - `clearRenderData(entity: Entity): void`
   - レンダリングデータを削除
-- `isEnabled(entity: Entity): boolean`
-  - レンダリングが有効かどうかを確認
-- `enable(entity: Entity): boolean`
-  - レンダリングを有効化
-- `disable(entity: Entity): boolean`
-  - レンダリングを無効化
+- `removeRenderData(entity: Entity): void`
+  - レンダリング設定を解除
+- `hasRenderData(entity: Entity): boolean`
+  - レンダリングデータを保持しているか判定
+- `getEntitiesWithRenderData(dimensions?: MinecraftDimensionTypes[], query?: EntityQueryOptions): Entity[]`
+  - レンダリングデータを持つエンティティを取得
 - `updateVariables(entity: Entity, variables: Partial<FmbeRenderVariables>): boolean`
   - レンダリング変数を更新
 - `applyRender(entity: Entity): boolean`
   - 保存されたレンダリングデータに基づいてレンダリングを適用
-- `setVariables(entity: Entity): boolean`
-  - 保存されたレンダリングデータに基づいて変数のみを設定
+- `setRenderVariables(entity: Entity): boolean`
+  - 保存されたレンダリングデータに基づいて変数のみを適用
 - `applyRenderBatch(entities: Entity[]): number`
   - 複数のエンティティにレンダリングを適用
 - `getRenderType(entity: Entity): FmbeRenderType | undefined`

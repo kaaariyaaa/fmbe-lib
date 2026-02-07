@@ -61,21 +61,18 @@ const DEFAULT_DIMENSIONS = [
  * ```typescript
  * const manager = new FmbeManager();
  * 
- * // レンダリング設定を保存
- * manager.setRenderData(entity, {
+ * // レンダリング設定を適用
+ * manager.applyRenderData(entity, {
  *   type: "block2d", // または FmbeRenderTypes.Block2D
  *   variables: { xpos: 0, ypos: 0, zpos: 0, scale: 1.0 },
  *   enabled: true,
  * });
  * 
- * // レンダリングを適用
- * manager.applyRender(entity);
+ * // レンダリング変数を適用
+ * manager.setRenderVariables(entity);
  * 
- * // レンダリングを無効化
- * manager.disable(entity);
- * 
- * // レンダリング設定を削除
- * manager.clearRenderData(entity);
+ * // レンダリング設定を解除
+ * manager.removeRenderData(entity);
  * ```
  */
 export class FmbeManager {
@@ -106,13 +103,15 @@ export class FmbeManager {
   }
 
   /**
-   * レンダリングデータを設定
+   * レンダリング設定を適用
    * 
    * @param entity - 対象エンティティ
    * @param data - レンダリングデータ
+   * @returns 成功した場合 true
    */
-  setRenderData(entity: Entity, data: FmbeRenderData): void {
+  applyRenderData(entity: Entity, data: FmbeRenderData): boolean {
     entity.setDynamicProperty(PROPERTY_KEY, JSON.stringify(data));
+    return this.applyRender(entity);
   }
 
   /**
@@ -125,69 +124,36 @@ export class FmbeManager {
   }
 
   /**
-   * レンダリングが有効かどうかを確認
+   * レンダリングデータを保持しているか
    * 
    * @param entity - 対象エンティティ
-   * @returns 有効な場合 true
+   * @returns レンダリングデータを保持している場合 true
    */
-  isEnabled(entity: Entity): boolean {
-    const data = this.getRenderData(entity);
-    return data?.enabled ?? false;
+  hasRenderData(entity: Entity): boolean {
+    const data = entity.getDynamicProperty(PROPERTY_KEY);
+    return typeof data === "string" && data.length > 0;
   }
 
   /**
-   * レンダリングを有効化
+   * レンダリングデータを持つエンティティを取得
    * 
-   * @param entity - 対象エンティティ
-   * @returns 成功した場合 true（レンダリングデータが存在しない場合は false）
+   * @param dimensions - 対象ディメンション（省略時は全ディメンション）
+   * @param query - エンティティ取得クエリ
+   * @returns レンダリングデータを持つエンティティ配列
    */
-  enable(entity: Entity): boolean {
-    return this.setEnable(entity, true);
-  }
-
-  /**
-   * レンダリングを無効化
-   *
-   * @param entity - 対象エンティティ
-   * @returns 成功した場合 true（レンダリングデータが存在しない場合は false）
-   */
-  disable(entity: Entity): boolean {
-    return this.setEnable(entity, false);
-  }
-
-  /**
-   * レンダリングの有効/無効を切り替え
-   *
-   * @param entity - 対象エンティティ
-   * @param enable - 有効化するか
-   * @returns 成功した場合 true（レンダリングデータが存在しない場合は false）
-   */
-  setEnable(entity: Entity, enable: boolean): boolean {
-    const data = this.getRenderData(entity);
-    if (!data) return false;
-    
-    data.enabled = enable;
-    this.setRenderData(entity, data);
-    return true;
-  }
-
-  /**
-   * レンダリング変数を更新
-   * 
-   * 既存のレンダリングデータの変数のみを更新します。
-   * レンダリングタイプや有効/無効フラグは変更されません。
-   * 
-   * @param entity - 対象エンティティ
-   * @param variables - 更新する変数（部分的な更新が可能）
-   * @returns 成功した場合 true（レンダリングデータが存在しない場合は false）
-   */
-  updateVariables(entity: Entity, variables: Partial<FmbeRenderVariables>): boolean {
-    const data = this.getRenderData(entity);
-    if (!data) return false;
-    
-    data.variables = { ...data.variables, ...variables };
-    this.setRenderData(entity, data);
-    return true;
+  getEntitiesWithRenderData(
+    dimensions: MinecraftDimensionTypes[] = DEFAULT_DIMENSIONS,
+    query: EntityQueryOptions = {}
+  ): Entity[] {
+    const result: Entity[] = [];
+    for (const dimensionId of dimensions) {
+      const dimension = world.getDimension(dimensionId);
+      const entities = dimension.getEntities(query);
+      for (const entity of entities) {
+        if (this.hasRenderData(entity)) result.push(entity);
+      }
+    }
+    return result;
   }
 
   /**
@@ -201,7 +167,7 @@ export class FmbeManager {
    */
   applyRender(entity: Entity): boolean {
     const data = this.getRenderData(entity);
-    if (!data || !data.enabled) return false;
+    if (!data) return false;
 
     try {
       const renderer = this.getRenderer(data.type);
@@ -213,44 +179,6 @@ export class FmbeManager {
     }
   }
 
-  /**
-   * レンダリング変数のみを設定
-   * 
-   * 保存されているレンダリングデータに基づいて、変数のみを更新します。
-   * enabled が false の場合は何もしません。
-   * 
-   * @param entity - 対象エンティティ
-   * @returns 成功した場合 true（レンダリングデータが存在しないか無効な場合は false）
-   */
-  setVariables(entity: Entity): boolean {
-    const data = this.getRenderData(entity);
-    if (!data || !data.enabled) return false;
-
-    try {
-      const renderer = this.getRenderer(data.type);
-      if (!renderer) return false;
-      renderer.setVariables(entity, data.variables);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  /**
-   * 複数のエンティティにレンダリングを適用
-   * 
-   * @param entities - 対象エンティティの配列
-   * @returns 成功したエンティティの数
-   */
-  applyRenderBatch(entities: Entity[]): number {
-    let successCount = 0;
-    for (const entity of entities) {
-      if (this.applyRender(entity)) {
-        successCount++;
-      }
-    }
-    return successCount;
-  }
 
   /**
    * エンティティのレンダリングタイプを取得
@@ -310,7 +238,7 @@ export function startAutoRenderLoop(options: FmbeAutoRenderLoopOptions = {}): nu
       const dimension = world.getDimension(dimensionId);
       const entities = dimension.getEntities(query);
       for (const entity of entities) {
-        if (!hasRenderData(entity)) continue;
+        if (!manager.hasRenderData(entity)) continue;
         entity.addEffect(MinecraftEffectTypes.Invisibility, 1, { showParticles: false });
         entity.addEffect(MinecraftEffectTypes.HealthBoost, 1, { showParticles: false });
         entity.clearVelocity();
@@ -329,7 +257,3 @@ export function stopAutoRenderLoop(): void {
   autoLoopId = undefined;
 }
 
-function hasRenderData(entity: Entity): boolean {
-  const data = entity.getDynamicProperty(PROPERTY_KEY);
-  return typeof data === "string" && data.length > 0;
-}
